@@ -24,23 +24,38 @@ public class Day2 : IDay
         return data.Count(l =>
         {
             bool singleFixUsed = false;
-            var direction = Math.Sign(l.Skip(1).Take(3).Select((x, i) => Math.Sign(x - l[i])).Average());
+            var direction = Math.Sign(l[1] - l[0]);
             for (int i = 1; i < l.Length; i++)
             {
                 if (!Test(l[i], l[i - 1], direction))
                 {
                     if (singleFixUsed)
                         return false;
-                    if (i + 1 == l.Length)
-                        return true;
-                    // Test remove i
-                    if (Test(l[i + 1], l[i - 1], direction))
-                        i++;
-                    // Test remove i-1
-                    else if (i >= 2 || !Test(l[i], l[i - 2], direction))
-                        return false;
 
                     singleFixUsed = true;
+
+                    if (i + 1 == l.Length)
+                        return true;
+
+                    // Test remove i
+                    if (i == 1)
+                        direction = Math.Sign(l[2] - l[0]);
+                    if (Test(l[i + 1], l[i - 1], direction))
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    // Test remove i-1
+                    if (i == 1)
+                    {
+                        direction = Math.Sign(l[2] - l[1]);
+                        continue;
+                    }
+                    if (i == 2)
+                        direction = Math.Sign(l[2] - l[0]);
+                    if (!Test(l[i], l[i - 2], direction))
+                        return false;
                 }
             }
             return true;
