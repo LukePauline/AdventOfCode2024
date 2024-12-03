@@ -12,7 +12,7 @@ public class Day2 : IDay
     public object Exercise2(string input)
     {
         var data = Parse(input);
-        return data.Count(BruteForceCheck);
+        return data.Count(CheckLineWReplace);
     }
 
     private static bool Test(int a, int b, int direction)
@@ -28,7 +28,7 @@ public class Day2 : IDay
             .ToArray())
         .ToArray();
 
-    private bool BruteForceCheck(int[] line)
+    private bool CheckLineWReplace(int[] line)
     {
         for (int i = 0; i < line.Length; i++)
         {
