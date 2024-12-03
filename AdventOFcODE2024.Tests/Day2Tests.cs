@@ -12,7 +12,5 @@ public class Day2Tests : TestBase<Day2>
 
     public override object Exercise1TestResult => 2;
 
-    public override string Exercise2TestInput => base.Exercise2TestInput;
-
     public override object Exercise2TestResult => 4;
 }

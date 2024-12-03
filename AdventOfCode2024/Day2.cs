@@ -6,66 +6,19 @@ public class Day2 : IDay
     public object Exercise1(string input)
     {
         var data = Parse(input);
-        return data.Count(l =>
-        {
-            int direction = Math.Sign(l[1] - l[0]);
-            for (int i = 1; i < l.Length; i++)
-            {
-                if (!Test(l[i], l[i - 1], direction))
-                    return false;
-            }
-            return true;
-        });
+        return data.Count(CheckLineNoReplace);
     }
 
     public object Exercise2(string input)
     {
         var data = Parse(input);
-        return data.Count(l =>
-        {
-            bool singleFixUsed = false;
-            var direction = Math.Sign(l[1] - l[0]);
-            for (int i = 1; i < l.Length; i++)
-            {
-                if (!Test(l[i], l[i - 1], direction))
-                {
-                    if (singleFixUsed)
-                        return false;
-
-                    singleFixUsed = true;
-
-                    if (i + 1 == l.Length)
-                        return true;
-
-                    // Test remove i
-                    if (i == 1)
-                        direction = Math.Sign(l[2] - l[0]);
-                    if (Test(l[i + 1], l[i - 1], direction))
-                    {
-                        i++;
-                        continue;
-                    }
-
-                    // Test remove i-1
-                    if (i == 1)
-                    {
-                        direction = Math.Sign(l[2] - l[1]);
-                        continue;
-                    }
-                    if (i == 2)
-                        direction = Math.Sign(l[2] - l[0]);
-                    if (!Test(l[i], l[i - 2], direction))
-                        return false;
-                }
-            }
-            return true;
-        });
+        return data.Count(BruteForceCheck);
     }
 
     private static bool Test(int a, int b, int direction)
     {
         int diff = a - b;
-        return Math.Abs(diff) <= 3 && Math.Sign(diff) == direction;
+        return diff != 0 && Math.Abs(diff) <= 3 && Math.Sign(diff) == direction;
     }
 
     private int[][] Parse(string input) => input
@@ -74,4 +27,26 @@ public class Day2 : IDay
             .Select(y => int.Parse(y))
             .ToArray())
         .ToArray();
+
+    private bool BruteForceCheck(int[] line)
+    {
+        for (int i = 0; i < line.Length; i++)
+        {
+            int[] candidate = [.. line[..i], .. line[(i + 1)..]];
+            if (CheckLineNoReplace(candidate))
+                return true;
+        }
+        return false;
+    }
+
+    private static bool CheckLineNoReplace(int[] l)
+    {
+        var direction = Math.Sign(Enumerable.Range(1, l.Length - 1).Select(i => Math.Sign(l[i] - l[i - 1])).Sum());
+        for (int i = 1; i < l.Length; i++)
+        {
+            if (!Test(l[i], l[i - 1], direction))
+                return false;
+        }
+        return true;
+    }
 }
