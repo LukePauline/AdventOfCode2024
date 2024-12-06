@@ -3,7 +3,7 @@
 namespace AdventOfCode2024;
 public class Day4 : IDay
 {
-    private (int dx, int dy)[] Checks(int l) => [
+    private static (int dx, int dy)[] Checks(int l) => [
         (-l,-l),(0,-l),(l,-l),
         (-l, 0),       (l, 0),
         (-l, l),(0, l),(l, l)
@@ -56,7 +56,7 @@ public class Day4 : IDay
         return count;
     }
 
-    private char[,] Parse(string input) => input
+    private static char[,] Parse(string input) => input
         .SplitByLineBreak(StringSplitOptions.RemoveEmptyEntries)
         .ParseGrid();
 }

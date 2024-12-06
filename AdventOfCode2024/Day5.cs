@@ -49,7 +49,7 @@ public class Day5 : IDay
         return (rules, tests);
     }
 
-    private Dictionary<int, int> CreateSortMap(IEnumerable<Rule> rules, IEnumerable<int> test)
+    private static Dictionary<int, int> CreateSortMap(IEnumerable<Rule> rules, IEnumerable<int> test)
     {
         Dictionary<int, HashSet<int>> nodes = [];
 
@@ -68,7 +68,7 @@ public class Day5 : IDay
         }
         Dictionary<int, int> result = [];
 
-        while (nodes.Any())
+        while (nodes.Count != 0)
         {
             var lowest = nodes.Where(x => x.Value.Count == 0).Single();
             nodes.Remove(lowest.Key);
@@ -80,5 +80,5 @@ public class Day5 : IDay
         return result;
     }
 
-    public record Rule(int Lesser, int Greater);
+    private record Rule(int Lesser, int Greater);
 }
