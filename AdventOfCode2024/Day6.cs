@@ -24,7 +24,6 @@ public class Day6 : IDay
         return originalPath.Skip(1).Count(p => TraverseGrid(grid, p).loopDetected);
     }
 
-
     private (IEnumerable<Point> path, bool loopDetected) TraverseGrid(char[,] grid, Point? newObstucruction = null)
     {
         int turns = 0;
