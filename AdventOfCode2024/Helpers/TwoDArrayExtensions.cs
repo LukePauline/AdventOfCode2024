@@ -46,8 +46,9 @@ public static class TwoDArrayExtensions
                     yield return (x, y);
             }
         }
-        throw new InvalidDataException();
     }
 
     public static T GetAtPoint<T>(this T[,] grid, Point point) => grid[point.X, point.Y];
+
+    public static BoundingBox GetBounds<T>(this T[,] grid) => new(0, 0, grid.GetLength(0), grid.GetLength(1));
 }
