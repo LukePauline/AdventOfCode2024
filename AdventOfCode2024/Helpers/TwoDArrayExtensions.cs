@@ -25,11 +25,11 @@ public static class TwoDArrayExtensions
 
     public static Point FindInGrid<T>(this T[,] grid, T value)
     {
-        for (int x = 0; x < grid.GetLength(0); x++)
+        for (int y = 0; y < grid.GetLength(0); y++)
         {
-            for (int y = 0; y < grid.GetLength(1); y++)
+            for (int x = 0; x < grid.GetLength(1); x++)
             {
-                if (grid[x, y]?.Equals(value) == true)
+                if (grid[y, x]?.Equals(value) == true)
                     return (x, y);
             }
         }
@@ -38,17 +38,30 @@ public static class TwoDArrayExtensions
 
     public static IEnumerable<Point> FindAll<T>(this T[,] grid, T value)
     {
-        for (int x = 0; x < grid.GetLength(0); x++)
+        for (int y = 0; y < grid.GetLength(0); y++)
         {
-            for (int y = 0; y < grid.GetLength(1); y++)
+            for (int x = 0; x < grid.GetLength(1); x++)
             {
-                if (grid[x, y]?.Equals(value) == true)
+                if (grid[y, x]?.Equals(value) == true)
                     yield return (x, y);
             }
         }
     }
 
-    public static T GetAtPoint<T>(this T[,] grid, Point point) => grid[point.X, point.Y];
+    public static T GetAtPoint<T>(this T[,] grid, Point point) => grid[point.Y, point.X];
 
-    public static BoundingBox GetBounds<T>(this T[,] grid) => new(0, 0, grid.GetLength(0), grid.GetLength(1));
+    public static BoundingBox GetBounds<T>(this T[,] grid) => new(0, 0, grid.GetLength(1), grid.GetLength(0));
+
+    public static void CopyOver<T>(this T[,] from, T[,] to)
+    {
+        if (from.GetLength(0) != to.GetLength(0) || from.GetLength(1) != to.GetLength(1))
+            throw new ArgumentException("dimensions don't match");
+        for (int y = 0; y < from.GetLength(0); y++)
+        {
+            for (int x = 0; x < to.GetLength(1); x++)
+            {
+                to[y, x] = from[y, x];
+            }
+        }
+    }
 }

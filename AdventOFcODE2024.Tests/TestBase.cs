@@ -5,7 +5,7 @@ public abstract class TestBase<TDay> where TDay : IDay, new()
     public TDay Day = new();
 
     [Fact]
-    public void Exercise1()
+    public virtual void Exercise1()
     {
         // Act
         var result = Day.Exercise1(Exercise1TestInput);
@@ -15,7 +15,7 @@ public abstract class TestBase<TDay> where TDay : IDay, new()
     }
 
     [Fact]
-    public void Exercise2()
+    public virtual void Exercise2()
     {
         // Act
         var result = Day.Exercise2(Exercise2TestInput);
